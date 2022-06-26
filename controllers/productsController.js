@@ -4,7 +4,8 @@ const productModel = require('../models/product.js')
 
 
 exports.create = (req, res, next) => {
-    productModel.insertProduct(
+    const data = req.body;
+    productModel.insertProduct( data,
         function (err, result) {
             if (err) {
               res.status(400).send("Error inserting product!");
@@ -30,20 +31,49 @@ exports.index = (req, res, next) => {
 }
 
 
-
-exports.getProductDetails = (req, res, next) => {
-    res.json({
-        products: []
-    })
-    // res.sendFile(path.join(__dirname,'../','views','productDetail.html'))
+exports.find = (req, res, next) => {
+    const num = req.params.num
+    productModel.find(num ,
+        function (err, result) {
+            if (err) {
+                res.status(400).send(`Error fetching product with number ${num}!`);
+           } else {
+                if(result != null)
+                    res.json(result);
+                res.status(404).json({data: `product with number ${num} is Not Found`});
+            }
+        }
+    )
 }
 
-exports.getAddProduct = (req, res, next) => {
-    res.sendFile(path.join(__dirname,'../','views','add-product.html'))
-};
 
-exports.postAddProduct = (req, res, next) => {
-    console.log(req.body)
-    // res.redirect('/home') 
-    res.sendFile(path.join(__dirname,'../','views','shop.html'))
+exports.delete = (req, res, next) => {
+    const num = req.params.num
+    productModel.delete(num ,
+        function (err, result) {
+            if (err) {
+                res.status(400).send(`Error deleting product with number ${num}!`);
+           } else {
+                res.json(result);
+            }
+        }
+    )
+}
+
+
+
+exports.update = (req, res, next) => {
+    const num = req.params.num;
+    const data = req.body;
+    console.log(data)
+    productModel.update(num , data,
+        function (err, result) {
+            if (err) {
+                // console.log(err)
+                res.status(400).send(`Error updating product with number ${num}!`);
+           } else {
+                res.json(result);
+            }
+        }
+    )
 }

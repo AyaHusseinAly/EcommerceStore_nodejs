@@ -2,30 +2,43 @@ dbo = require('../database')
 const dbConnect = dbo.getDb();
 console.log(dbConnect)
 
-exports.insertProduct =  (insertCallback) =>{
-    const productDocument = {
-        "number":"109",
-        "name":"Sweet Pants for women",
-        "src":"img/prod6.PNG",
-        "src1":"img/33.jpeg",
-        "src2":"img/custlog.jpeg",
-        "src3":"img/r8.jpg",
-        "price":"1500",
-        "quantity":"15",
-        "product_desc":"Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet v"
-
-    };
+exports.insertProduct =  (data, Callback) =>{
   
     dbConnect
       .collection("products")
-      .insertOne(productDocument, insertCallback);
+      .insertOne(data, Callback);
 }
 
 
-exports.findAll =  (indexCallback) =>{
+exports.findAll =  (Callback) =>{
 
     dbConnect
       .collection("products")
       .find({}).limit(200)
-      .toArray(indexCallback);
+      .toArray(Callback);
+}
+
+
+exports.find =  (num, Callback) =>{
+
+    dbConnect
+      .collection("products")
+      .findOne({number: num}, Callback);
+}
+
+
+
+exports.delete =  (num, Callback) =>{
+
+    dbConnect
+      .collection("products")
+      .deleteOne({number: num}, Callback);
+}
+
+
+exports.update =  (num, data, Callback) =>{
+
+    dbConnect
+      .collection("products")
+      .updateOne({number: num}, {$set: data}, Callback);
 }

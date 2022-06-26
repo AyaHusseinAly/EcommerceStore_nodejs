@@ -10,15 +10,16 @@ router.post('/products', productsController.create);
 // /products => get
 router.get('/products', productsController.index);
 
+// /products/num => get
+router.get('/products/:num', productsController.find);
 
 
-// // /products/{id}
-// router.get('/products', productsController.getProductDetails)
+// /products/num => delete
+router.delete('/products/:num', productsController.delete);
 
-// // /add-product => get
-// router.get('/add-product', productsController.getAddProduct)
+// /products/num => put
+router.put('/products/:num', productsController.update);
 
-// // /add-product => post
-// router.post('/add-product', productsController.postAddProduct)
+
 
 module.exports = router
